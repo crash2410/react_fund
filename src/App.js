@@ -8,6 +8,7 @@ import MyInput from "./components/UI/input/MyInput";
 import PostFrom from "./components/PostFrom";
 import MySelect from "./components/UI/select/MySelect";
 import PostFilter from "./components/PostFilter";
+import MyModal from "./components/UI/MyModal/MyModal";
 
 function App() {
     const [posts, setPosts] = useState([
@@ -17,9 +18,11 @@ function App() {
         {id: 4, title: "df", body: "Description - 4"}
     ]);
     const [sortedAndSearchedPosts, setSortedAndSearchedPosts] = useState([]);
+    const [modal, setModal] = useState(false);
 
     const addNewPost = (newPost) => {
         setPosts([...posts, newPost]);
+        setModal(false);
     }
 
     const removePost = (post) => {
@@ -28,7 +31,13 @@ function App() {
 
 
     return (<div className="App">
-        <PostFrom createNewPost={addNewPost}/>
+        <MyButton style={{margin: "10px 0"}} onClick={() => setModal(true)}>
+            Создать пользователя
+        </MyButton>
+        <MyModal visible={modal} setVisible={setModal}>
+            <PostFrom createNewPost={addNewPost}/>
+        </MyModal>
+
         <hr style={{margin: "10px 0"}}/>
         <PostFilter posts={posts} setSortedAndSearchedPosts={setSortedAndSearchedPosts}/>
         {sortedAndSearchedPosts.length !== 0 ? <PostList removePost={removePost} post={sortedAndSearchedPosts} title="Список постов:"/> :
