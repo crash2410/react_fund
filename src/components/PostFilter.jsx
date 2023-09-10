@@ -1,7 +1,7 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import MyInput from "./UI/input/MyInput";
 import MySelect from "./UI/select/MySelect";
-import {usePosts, useSortedPosts} from "../hooks/usePosts";
+import {usePosts} from "../hooks/usePosts";
 
 const PostFilter = ({posts, setSortedAndSearchedPosts}) => {
 
@@ -12,7 +12,7 @@ const PostFilter = ({posts, setSortedAndSearchedPosts}) => {
 
     useEffect(() => {
         setSortedAndSearchedPosts(sortedAndSearchedPosts);
-    }, [searchQuery, selectedSort]);
+    }, [searchQuery, selectedSort, sortedAndSearchedPosts, setSortedAndSearchedPosts],);
 
     const sortPosts = (sortValue) => {
         setSelectedSort(sortValue);
@@ -25,7 +25,7 @@ const PostFilter = ({posts, setSortedAndSearchedPosts}) => {
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder="Введите название поста"
             />
-            <MySelect value={selectedSort} onChange={sortPosts} defaultValue={"DEFAULT"}
+            <MySelect value={selectedSort} onChange={(value) => sortPosts(value)} defaultValue={"DEFAULT"}
                       options={[{value: "title", name: "По названию"}, {value: "body", name: "По описанию"}]}/>
         </div>);
 };

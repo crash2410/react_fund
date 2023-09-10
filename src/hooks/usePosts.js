@@ -8,6 +8,7 @@ import {useMemo} from "react";
   * @returns {Array} - Отсортированный массив постов.
  **/
 export const useSortedPosts = (posts, sort) => {
+
     // Используем мемоизацию, чтобы убедиться, что отсортированный массив пересчитывается только при изменении `sort` или `posts`
     return useMemo(() => {
         if (sort) {
@@ -16,6 +17,7 @@ export const useSortedPosts = (posts, sort) => {
         }
         // Если не указано свойство для сортировки, возвращаем исходный массив постов
         return posts
+
     }, [sort, posts])
 }
 
@@ -30,9 +32,11 @@ export const useSortedPosts = (posts, sort) => {
 export const usePosts = (posts, sort, query) => {
     // Сортируем посты на основе указанного параметра сортировки
     const sortedPosts = useSortedPosts(posts, sort);
+
     // Используем мемоизацию для избежания ненужных повторных вычислений
     return useMemo(() => {
         // Фильтруем отсортированные посты на основе поискового запроса, если он указан
         return query ? sortedPosts.filter(post => post.title.toLowerCase().includes(query.toLowerCase())) : sortedPosts;
+
     }, [query, sortedPosts]);
 }
