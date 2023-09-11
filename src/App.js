@@ -13,19 +13,30 @@ import axios from "axios";
 import PostService from "./API/PostService";
 import Loader from "./components/UI/Loader/Loader";
 import {useFetching} from "./hooks/useFetching";
+import {getPagesCount} from "./utils/page";
+import {usePagination} from "./hooks/usePagination";
+import Pagination from "./components/UI/pagination/Pagination";
 
 function App() {
     const [posts, setPosts] = useState([]);
     const [sortedAndSearchedPosts, setSortedAndSearchedPosts] = useState([]);
     const [modal, setModal] = useState(false);
-    const [fetchPosts, isPostLoading, postError] = useFetching( async () => {
-        const posts = await PostService.getAll()
-        setPosts(posts);
+    const [totalPage, setTotalPage] = useState(0);
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(1);
+
+
+
+    const [fetchPosts, isPostLoading, postError] = useFetching(async () => {
+        const response = await PostService.getAll(limit, page);
+        setPosts(response.data);
+        const totalCount = response.headers['x-total-count'];
+        setTotalPage(getPagesCount(totalCount, limit));
     });
 
     useEffect(() => {
         fetchPosts();
-    }, []);
+    }, [page]);
 
     const addNewPost = (newPost) => {
         setPosts([...posts, newPost]);
@@ -37,8 +48,13 @@ function App() {
     }
 
     const PostListLoad = ({sortedAndSearchedPosts}) => {
-        return sortedAndSearchedPosts.length !== 0 ? <PostList removePost={removePost} post={sortedAndSearchedPosts} title="Список постов:"/> :
-                <h1 style={{textAlign: "center"}}>Посты не найдены!</h1>
+        return sortedAndSearchedPosts.length !== 0 ?
+            <PostList removePost={removePost} post={sortedAndSearchedPosts} title="Список постов:"/> :
+            <h1 style={{textAlign: "center"}}>Посты не найдены!</h1>
+    }
+
+    const changePage = (page) => {
+        setPage(page);
     }
 
     return (<div className="App">
@@ -51,12 +67,11 @@ function App() {
 
         <hr style={{margin: "10px 0"}}/>
         <PostFilter posts={posts} setSortedAndSearchedPosts={setSortedAndSearchedPosts}/>
-        {
-            postError && !isPostLoading && <h1>Произошла ошибка ${postError}</h1>
-        }
+        {postError && !isPostLoading && <h1>Произошла ошибка ${postError}</h1>}
         {isPostLoading ? <div style={{display: "flex", justifyContent: "center", marginTop: "50px"}}><Loader/></div> :
             <PostListLoad sortedAndSearchedPosts={sortedAndSearchedPosts}/>}
 
+        <Pagination totalPage={totalPage} changePage={changePage} page={page} />
 
 
     </div>);
