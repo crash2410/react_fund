@@ -1,20 +1,12 @@
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
 
-#root {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
 
 .App {
-    margin-top: 50px;
+    margin: 50px auto 0 auto;
     width: 800px;
 }
-
+.post__content{
+    width: 95%;
+}
 .post {
     display: flex;
     padding: 15px;
@@ -22,6 +14,12 @@
     margin-top: 15px;
     justify-content: space-between;
     align-items: center;
+}
+
+.post__btns{
+    display: flex;
+    width: 150px;
+    justify-content: space-between;
 }
 
 .post-enter {

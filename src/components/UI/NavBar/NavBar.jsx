@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import './NavBar.module.css';
+import './NavBar.css';
 
 // Компонент NavBar представляет собой навигационную панель (меню) для веб-приложения.
 const NavBar = () => {

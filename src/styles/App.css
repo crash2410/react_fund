@@ -1,31 +1,10 @@
-nav{
-    display: flex;
-    margin-top: 20px;
-    width: 800px;
-    justify-content: center;
-    align-items: center;
-}
-
-.menu {
-    list-style: none;
+* {
     padding: 0;
     margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    box-sizing: border-box;
 }
 
-.menu-item {
-    margin-right: 10px;
-}
-
-.menu-link {
-    text-decoration: none;
-    color: teal;
-    font-weight: bold;
-    font-size: 20px;
-}
-
-.menu-link:hover {
-    color: #ff0000;
+#root {
+    display: block;
+    margin: 0 auto;
 }

@@ -14,10 +14,10 @@ export const useFetching = (callback) => {
     /**
      * Функция для получения данных.
      * */
-    const fetching = async () => {
+    const fetching = async (...arg) => {
         try {
             setIsLoading(true)
-            await callback()
+            await callback(...arg)
         } catch (error) {
             setError(error.message)
             setIsLoading(false)
